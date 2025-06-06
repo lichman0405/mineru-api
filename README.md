@@ -23,8 +23,8 @@
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi)
 ![Celery](https://img.shields.io/badge/Celery-3778AF?style=flat&logo=celery)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker)
-[![GitHub issues](https://img.shields.io/github/issues/YOUR_USERNAME/YOUR_REPO_NAME.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO_NAME/issues)
-[![GitHub stars](https://img.shields.io/github/stars/lichman0405/mineru-api.git.svg?style=social)](https://github.com/lichman0405/mineru-api.git])
+[![GitHub issues](https://img.shields.io/github/issues/lichman0405/mineru-api.svg)](https://github.com/lichman0405/mineru-api/issues)
+[![GitHub stars](https://img.shields.io/github/stars/lichman0405/mineru-api.svg?style=social)](https://github.com/lichman0405/mineru-api.git])
 
 </div>
 

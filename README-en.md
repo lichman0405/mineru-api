@@ -24,7 +24,7 @@
 ![Celery](https://img.shields.io/badge/Celery-3778AF?style=flat&logo=celery)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker)
 [![GitHub issues](https://img.shields.io/github/issues/lichman0405/mineru-api.svg)](https://github.com/lichman0405/mineru-api/issues)
-[![GitHub stars](https://img.shields.io/github/stars/lichman0405/mineru-api.git.svg?style=social)](https://github.com/lichman0405/mineru-api.git])
+[![GitHub stars](https://img.shields.io/github/stars/lichman0405/mineru-api.svg?style=social)](https://github.com/lichman0405/mineru-api.git])
 
 </div>
 
