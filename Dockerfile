@@ -14,7 +14,7 @@ WORKDIR /app
 #    Copying this file first and installing allows leveraging Docker's layer caching.
 #    This layer won't be rebuilt as long as requirements.txt doesn't change.
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple
+RUN pip install --no-cache-dir -r requirements.txt -i
 
 # 5. Download and run the model download script.
 #    This step can be time-consuming but also benefits from Docker caching.
