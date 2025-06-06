@@ -7,7 +7,7 @@ python-multipart
 
 # Logging and Development
 rich
-watchdog # For auto-reloading services on code change
+watchdog
 
 # PDF Analysis Core Library
 magic-pdf[full]

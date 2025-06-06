@@ -1,23 +1,26 @@
+# docker-compose.yml
+
 version: '3.8'
 
+# Define a dedicated network for the app for better isolation
 networks:
   mineru_net:
     driver: bridge
 
 services:
-  # 1. Redis service
+  # 1. The Redis message broker service
   redis:
     image: redis:7-alpine
-    container_name: mineru_api_redis 
-    networks: 
+    container_name: mineru_api_redis
+    networks:
       - mineru_net
     ports:
-      - "6380:6379" 
+      - "6380:6379" # Mapped to host port 6380
 
-  # 2. FastAPI Web service
+  # 2. The FastAPI web application service
   web:
     build: .
-    container_name: mineru_api_web 
+    container_name: mineru_api_web
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir /app/app
     volumes:
       - ./app:/app/app
@@ -25,16 +28,16 @@ services:
       - ./data/output:/app/data/output
       - ./data/logs:/app/data/logs
     ports:
-      - "8001:8000" 
+      - "8001:8000" # Mapped to host port 8001
     depends_on:
       - redis
-    networks: 
+    networks:
       - mineru_net
 
-  # 3. Celery Worker service
+  # 3. The Celery worker service
   worker:
     build: .
-    container_name: mineru_api_worker 
+    container_name: mineru_api_worker
     command: watchmedo auto-restart --directory=/app/app --pattern=*.py --recursive -- celery -A app.worker.celery_app worker -l info --concurrency=1
     volumes:
       - ./app:/app/app
@@ -43,5 +46,5 @@ services:
       - ./data/logs:/app/data/logs
     depends_on:
       - redis
-    networks: 
+    networks:
       - mineru_net

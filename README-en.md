@@ -90,64 +90,54 @@ Before you begin, ensure your system has the following software installed:
 
 ## 🕹️ Usage
 
-Once the service is running, you can interact with it through its API endpoints.
+We recommend using the provided client scripts to interact with the service. This greatly simplifies the process of submitting tasks, polling for status, and downloading results. Please run these scripts on your local machine, not inside a container.
 
-### 1. Submit PDF Processing Task
+### Option 1: Test a Single File (Recommended for Debugging)
 
-Send a `POST` request to the `/process-pdf/` endpoint to upload and submit a PDF file.
+Use the `test_single_file.py` script to perform a complete end-to-end test from submission to downloading the result.
 
--   **Example (`curl`)**:
-    (Please replace `my_document.pdf` with your own filename and `localhost:8001` with the IP address of the host where you deployed the service)
+1.  **Install Dependencies**:
     ```bash
-    curl -X POST -F "file=@./data/input_pdfs/my_document.pdf" http://localhost:8001/process-pdf/
+    pip install requests
     ```
-
--   **Successful Response**:
-    The service will immediately accept the task and return a `task ID` with a `202 Accepted` status code.
-
-    ```JSON
-    {
-    "task_id": "a1b2c3d4-e5f6-7890-abcd-1234567890ab",
-    "status_url": "/tasks/status/a1b2c3d4-e5f6-7890-abcd-1234567890ab"
-    }
+2.  **Run the Script**:
+    ```bash
+    # Process test.pdf and download the results to the ./downloaded_results directory
+    python test_single_file.py --file ./data/input_pdfs/test.pdf --download-dir ./downloaded_results
     ```
+3.  **Check the Output**:
+    The script will automatically submit the file, poll for status, and upon successful completion, download a `.zip` archive containing all results into the `./downloaded_results` directory.
 
-### 2. Check Task Status and Results
-Use the `task_id` obtained in the previous step to send a `GET` request to the `/tasks/status/{task_id}` endpoint to check the task status.
+### Option 2: Batch Submit Tasks (Recommended for Production)
 
--   **Example (`curl`)**:
+Use the `batch_submit.py` script to efficiently submit all PDFs from a directory.
 
-```Bash
-curl http://localhost:8001/tasks/status/a1b2c3d4-e5f6-7890-abcd-1234567890ab
-```
-
--   **Possible Responses**:
-
-    -   Processing:
-    ```JSON
-    {
-    "task_id": "...",
-    "status": "PENDING",
-    "result": null
-    }
+1.  **Install Dependencies**:
+    ```bash
+    pip install requests tqdm
     ```
-    -   Successfully processed:
-    ```JSON
-    {
-      "task_id": "...",
-      "status": "SUCCESS",
-      "result": {
-        "status": "success",
-        "input_file": "/app/data/input_pdfs/my_document.pdf",
-        "analysis_mode": "Text",
-        "output_directory": "/app/data/output/my_document",
-        "generated_files": { ... }
-      }
-    }
+2.  **Run the Script**:
+    ```bash
+    # Submit all PDFs from the specified directory using 10 concurrent workers
+    python batch_submit.py --directory ./data/input_pdfs/ --workers 10
     ```
+3.  **Get Task IDs**:
+    After the script finishes, a `submission_log.csv` file will be created in the current directory. This file contains the mapping between each filename and its `task_id`, which you can use for tracking later.
+
+### API Endpoint Reference
+
+If you prefer to build your own client, here are the core API endpoints:
+
+| Method | Path                               | Description                                                  |
+| :----- | :--------------------------------- | :----------------------------------------------------------- |
+| `POST` | `/process-pdf/`                    | Submits a PDF file and returns a `task_id`.                  |
+| `GET`  | `/tasks/status/{task_id}`          | Checks the status and result (if completed) of a specific task. |
+| `GET`  | `/tasks/result/download/{task_id}` | Downloads all result files for a task as a `.zip` archive.    |
 
 ## 📁 Output Structure
-All processing results will be saved in the `./data/output/` directory on your host machine, under a dedicated subdirectory named after the original PDF file.
+
+When you download the result `.zip` archive via the API and extract it, you will find a dedicated folder named after the original PDF file, with the following internal structure:
+
 ```bash
 data/output/
 └── my_document/
@@ -158,6 +148,7 @@ data/output/
     └── images/
         └── ...
 ```
+
 ## 📝 License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
