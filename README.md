@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/lichman0405/mineru-api.git">
-    <img src="./assets/edit_logo.png" alt="Logo" width="150px">
+    <img src="/assets/edit_logo.png" alt="Logo" width="150px">
   </a>
   
   <h1 align="center">MinerU PDF 智能解析服务</h1>
