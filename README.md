@@ -116,13 +116,33 @@
     ```bash
     pip install requests tqdm
     ```
+
 2.  **运行脚本**:
     ```bash
     # 使用10个并发线程，提交指定目录下的所有PDF
     python batch_submit.py --directory ./data/input_pdfs/ --workers 10
     ```
+
 3.  **获取任务ID**:
     脚本运行结束后，会在当前目录生成一个 `submission_log.csv` 文件。此文件包含了每个文件名与对应的 `task_id`。您可以在稍后根据这些 `task_id` 来获取结果。
+
+### 方式三：批量下载完成任务
+
+使用`batch_download.py`，根据本地`submission_log.csv`文件中的`task_id`，批量下载完成转换的任务。下载文件是`*.zip`。
+
+1. **安装依赖**
+    ```bash
+    pip install requests tqdm
+    ```
+
+2. **运行脚本**
+    ```bash
+    # 使用10个并发线程，下载所有zip
+    python batch_download.py --csv-file /path/to/csv_file -u base_url_of_service -d /path/to/download_directory -w 10
+    ```
+
+3. **解压之后手工处理**
+    脚本目前没有提供自动整理或者归档转制之后的markdown文件的功能，请自行手工处理。
 
 
 ### API 端点参考

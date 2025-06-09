@@ -124,6 +124,24 @@ Use the `batch_submit.py` script to efficiently submit all PDFs from a directory
 3.  **Get Task IDs**:
     After the script finishes, a `submission_log.csv` file will be created in the current directory. This file contains the mapping between each filename and its `task_id`, which you can use for tracking later.
 
+### Option 3: Batch Download Completed Tasks
+Use batch_download.py to batch download completed conversion tasks based on the task_id in the local submission_log.csv file. The downloaded files are in *.zip format.
+
+1. **Install dependencies**
+    ```bash
+    pip install requests tqdm
+    Run the script
+    ```
+
+2. **Use 10 concurrent threads to download all zip files**
+    ```bash
+    python batch_download.py --csv-file /path/to/csv_file -u base_url_of_service -d /path/to/download_directory -w 10
+    ```
+
+3. **Manual processing after extraction**
+    The script currently does not provide automatic organization or archiving of the converted markdown files. Please process them manually.
+
+
 ### API Endpoint Reference
 
 If you prefer to build your own client, here are the core API endpoints:
